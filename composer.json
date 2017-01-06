@@ -1,0 +1,25 @@
+{
+    "name": "armonb/phalconify",
+    "description": "A PhalconPHP library to speed build projects.",
+    "authors": [
+        {
+            "name": "Armon Bigham",
+            "email": "me@armonbigham.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:armonb/phalconify-database.git"
+        }
+    ],
+    "require": {
+        "phalconify/database": "master@dev"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Phalconify\\" : "src/"
+        }
+    }
+}

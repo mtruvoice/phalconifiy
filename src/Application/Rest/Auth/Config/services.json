@@ -1,0 +1,22 @@
+[
+    {
+        "name": "phalconify-acl-adapter",
+        "definition": "\\Phalconify\\Application\\Rest\\Auth\\ACL",
+        "shared": true
+    },
+    {
+        "name": "phalconify-auth-agent",
+        "definition": "\\Phalconify\\Application\\Rest\\Auth\\Agent",
+        "shared": true
+    },
+    {
+        "name": "phalconify-auth-authorise",
+        "definition": "\\Phalconify\\Application\\Rest\\Auth\\Authorise",
+        "shared": true
+    },
+    {
+        "name": "phalconify-auth-middleware",
+        "definition": "\\Phalconify\\Application\\Rest\\Auth\\Middleware",
+        "shared": true
+    }
+]

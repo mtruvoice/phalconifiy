@@ -1,0 +1,58 @@
+[
+    {
+        "resource": "auth",
+        "prefix": "/auth",
+        "controller": "\\Phalconify\\Application\\Rest\\Controllers\\AuthController",
+        "methods": {
+            "get": {
+                "action": "login",
+                "auth": "Guest"
+            }
+        }
+    },
+    {
+        "resource": "users",
+        "prefix": "/users",
+        "controller": "\\Phalconify\\Application\\Rest\\Controllers\\UsersController",
+        "methods": {
+            "get": {
+                "action": "getAll",
+                "auth": "Admin"
+            },
+            "post": {
+                "action": "create",
+                "auth": "Admin"
+            }
+        }
+    },
+    {
+        "resource": "users",
+        "prefix": "/users/{userId:[a-zA-Z0-9\\_\\-]+}",
+        "controller": "\\Phalconify\\Application\\Rest\\Controllers\\UsersController",
+        "methods": {
+            "get": {
+                "action": "get",
+                "auth": "Admin"
+            },
+            "put": {
+                "action": "update",
+                "auth": "Admin"
+            },
+            "delete": {
+                "action": "delete",
+                "auth": "Admin"
+            }
+        }
+    },
+    {
+        "resource": "users",
+        "prefix": "/users/{userId:[a-zA-Z0-9\\_\\-]+}/password",
+        "controller": "\\Phalconify\\Application\\Rest\\Controllers\\UsersController",
+        "methods": {
+            "put": {
+                "action": "passwordReset",
+                "auth": "Admin"
+            }
+        }
+    }
+]

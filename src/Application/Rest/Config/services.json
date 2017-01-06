@@ -1,0 +1,12 @@
+[
+    {
+        "name": "phalconify-request",
+        "definition": "\\Phalconify\\Application\\Rest\\Http\\Request",
+        "shared": true
+    },
+    {
+        "name": "phalconify-cryptor",
+        "definition": "\\Phalconify\\Utils\\Cryptor",
+        "shared": true
+    }
+]

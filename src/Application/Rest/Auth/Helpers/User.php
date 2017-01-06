@@ -1,0 +1,74 @@
+<?php
+
+namespace Phalconify\Application\Rest\Auth\Helpers;
+
+use Phalconify\Application\Rest\Collections\Users as UsersCollection;
+
+class User
+{
+    public function hasValidUser(\Phalcon\Di\FactoryDefault $di = null)
+    {
+        // Ensure $di is not null
+        if ($di === null) {
+            return false;
+        }
+
+        // Ensure user is in in service container
+        if (!isset($di['user'])) {
+            return false;
+        }
+
+        // Ensure user was found
+        if ($di['user'] === false) {
+            return false;
+        }
+
+        // Ensure user status is present
+        if (!isset($di['user']->status)) {
+            return false;
+        }
+
+        // Ensure user is set to active
+        if ($di['user']->status === UsersCollection::STATUS_ACTIVE) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function generateToken()
+    {
+        // Initialise
+        $exists = true;
+
+        // Loop until a unique token has been generated
+        while ($exists !== false) {
+
+            // Create a random string token
+            $token = \Phalcon\Text::random(\Phalcon\Text::RANDOM_ALNUM, 255);
+
+            // Check token is unique
+            $exists = UsersCollection::findFirst([
+                'conditions' => [
+                    'token' => $token,
+                ],
+            ]);
+        }
+
+        // Return the unique token
+        return $token;
+    }
+
+    public static function passwordsMatch($encryptedPassword, $password, $encryptionKey)
+    {
+        // Create instance of the Phalcon cryptor
+        $cryptor = new \Phalcon\Crypt();
+
+        // Verify decrypted password matches the plain text password
+        if (trim($cryptor->decryptBase64($encryptedPassword, $encryptionKey)) !== $password) {
+            return false;
+        }
+
+        return true;
+    }
+}
