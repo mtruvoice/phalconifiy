@@ -10,8 +10,9 @@
     "minimum-stability": "dev",
     "repositories": [
         {
-            "type": "git",
-            "url": "git@github.com:armonb/phalconify-database.git"
+            "type": "vcs",
+            "url": "git@github.com:armonb/phalconify-database.git",
+            "no-api": true
         }
     ],
     "require": {
