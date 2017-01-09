@@ -25,7 +25,7 @@ class AuthController extends \Phalcon\Mvc\Controller
         $token = UserHelper::generateToken();
 
         // Update user with token and expiry
-        $user = $di['user'];
+        $user = $di['phalconify-user'];
         $user->setToken($token);
         $user->setTokenExpiry();
         $user->setLastSeen();
