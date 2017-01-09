@@ -20,9 +20,12 @@ class Rest extends ApplicationBase implements ApplicationInterface
             $this->loadServices(__DIR__.'/Rest/Auth/Config/services.json');
             $this->loadEndpoints(__DIR__.'/Rest/Auth/Config/endpoints.json');
 
-            // Enable authorisation on the endpoints
+            // Enable authorisation on the user endpoints
             $authoriser = $this->di->getShared('phalconify-auth-authorise');
             $authoriser->setControl(new \Phalcon\Config\Adapter\Json(__DIR__.'/Rest/Auth/Config/endpoints.json'));
+
+            // Enable authorisation on the custom endpoints
+            $authoriser->setControl($this->di->getShared('phalconify-config')->endpoints);
         }
     }
 
