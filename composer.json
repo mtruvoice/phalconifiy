@@ -7,7 +7,6 @@
             "email": "me@armonbigham.com"
         }
     ],
-    "minimum-stability": "dev",
     "repositories": [
         {
             "type": "vcs",
