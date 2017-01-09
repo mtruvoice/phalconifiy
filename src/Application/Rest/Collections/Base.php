@@ -10,8 +10,11 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
     use Loader;
     use Pagination;
     use Sorting;
-    use Timestamps;
 
+    public $dateUpdated;
+
+    public $dateCreated;
+    
     /**
      * {@inheritdoc}
      */
@@ -90,6 +93,30 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
             return $message->getMessage();
         }, $this->getMessages());
     }
+    
+    public function getDateUpdated()
+    {
+        return $this->dateUpdated();
+    }
+
+    public function setDateUpdated($time)
+    {
+        $this->dateUpdated = $time;
+
+        return $this;
+    }
+
+    public function getDateCreated()
+    {
+        return $this->dateUpdated();
+    }
+
+    public function setDateCreated($time)
+    {
+        $this->dateUpdated = $time;
+
+        return $this;
+    }    
 
     /**
      * Model Hook: After validation on create.
