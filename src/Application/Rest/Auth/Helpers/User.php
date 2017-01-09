@@ -14,22 +14,22 @@ class User
         }
 
         // Ensure user is in in service container
-        if (!isset($di['user'])) {
+        if (!isset($di['phalconify-user'])) {
             return false;
         }
 
         // Ensure user was found
-        if ($di['user'] === false) {
+        if ($di['phalconify-user'] === false) {
             return false;
         }
 
         // Ensure user status is present
-        if (!isset($di['user']->status)) {
+        if (!isset($di['phalconify-user']->status)) {
             return false;
         }
 
         // Ensure user is set to active
-        if ($di['user']->status === UsersCollection::STATUS_ACTIVE) {
+        if ($di['phalconify-user']->status === UsersCollection::STATUS_ACTIVE) {
             return true;
         }
 
