@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "armonb/phalconify-database": "master@dev",
+        "armonb/phalconify-database": "dev-master",
         "phalcon/incubator": "^3.0"
     },
     "autoload": {
