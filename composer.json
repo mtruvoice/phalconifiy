@@ -10,12 +10,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:armonb/phalconify-database.git",
-            "no-api": true
+            "url": "git@github.com:armonb/phalconify-database.git"
         }
     ],
     "require": {
-        "armonb/phalconify-database": "dev-master",
+        "armonb/phalconify-database": "^0.1",
         "phalcon/incubator": "^3.0"
     },
     "autoload": {
