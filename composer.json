@@ -7,12 +7,6 @@
             "email": "me@armonbigham.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:armonb/phalconify-database.git"
-        }
-    ],
     "require": {
         "armonb/phalconify-database": "^1.0.0",
         "phalcon/incubator": "^3.0"
