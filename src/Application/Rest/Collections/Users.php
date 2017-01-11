@@ -195,7 +195,7 @@ class Users extends \Phalconify\Application\Rest\Collections\Base
         // Encrypt password
         $di = \Phalcon\DI::getDefault();
         $cryptor = new \Phalcon\Crypt();
-        $this->password = $cryptor->encryptBase64($password, $di['config']->encryption->key);
+        $this->password = $cryptor->encryptBase64($password, $di['phalconify-config']->encryption->key);
         $this->save();
 
         return $password;
@@ -212,7 +212,7 @@ class Users extends \Phalconify\Application\Rest\Collections\Base
         // Encrypt the password
         $di = \Phalcon\DI::getDefault();
         $cryptor = new \Phalcon\Crypt();
-        $this->password = $cryptor->encryptBase64($this->password, $di['config']->encryption->key);
+        $this->password = $cryptor->encryptBase64($this->password, $di['phalconify-config']->encryption->key);
     }
 
     /*
