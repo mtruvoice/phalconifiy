@@ -4,7 +4,7 @@ namespace Phalconify\Application\Rest\Auth;
 
 use Phalcon\Config;
 use Phalcon\Di\Injectable;
-use Phalconify\Application\Rest\Collections\Users;
+use Phalconify\Application\Rest\Auth\Helpers\User as UserHelper;
 
 /**
  * Creates the authorization mechanism in the system.
@@ -42,7 +42,7 @@ class Authorise extends Injectable
         static $user;
         if (!isset($user)) {
             $config = $this->getDI()->getShared('phalconify-config');
-            $user = Users::getUser($config->encryption->key);
+            $user = UserHelper::getUsersCollection()::getUser($config->encryption->key);
         }
 
         return $user;
@@ -54,6 +54,7 @@ class Authorise extends Injectable
     protected function setUser()
     {
         $user = $this->getCurrentUser();
+
         $this->getDI()->set('phalconify-user', function () use ($user) {
             return $user;
         }, true);
@@ -68,7 +69,7 @@ class Authorise extends Injectable
 
         $app = $this->getDI()->getShared('phalconify-application');
         $authAdapter = $this->getDI()->getShared('phalconify-acl-adapter');
-        $role = ($user !== false ? $user->getRole() : Users::ROLE_GUEST);
+        $role = ($user !== false ? $user->getRole() : UserHelper::getUsersCollection()::ROLE_GUEST);
         $app->before(function () use ($app, $authAdapter, $role) {
             $middleware = $this->getDI()->get('phalconify-auth-middleware');
 

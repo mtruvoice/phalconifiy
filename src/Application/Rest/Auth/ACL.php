@@ -2,7 +2,7 @@
 
 namespace Phalconify\Application\Rest\Auth;
 
-use Phalconify\Application\Rest\Collections\Users;
+use Phalconify\Application\Rest\Auth\Helpers\User as UserHelper;
 use Phalcon\Acl\Adapter\Memory;
 
 /**
@@ -44,8 +44,8 @@ class ACL
      */
     protected function registerRoles()
     {
-        $this->adapter->addRole(new \Phalcon\Acl\Role(Users::ROLE_GUEST));
-        $this->adapter->addRole(new \Phalcon\Acl\Role(Users::ROLE_USER), Users::ROLE_GUEST);
-        $this->adapter->addRole(new \Phalcon\Acl\Role(Users::ROLE_ADMIN), Users::ROLE_USER);
+        $this->adapter->addRole(new \Phalcon\Acl\Role(UserHelper::getUsersCollection()::ROLE_GUEST));
+        $this->adapter->addRole(new \Phalcon\Acl\Role(UserHelper::getUsersCollection()::ROLE_USER), UserHelper::getUsersCollection()::ROLE_GUEST);
+        $this->adapter->addRole(new \Phalcon\Acl\Role(UserHelper::getUsersCollection()::ROLE_ADMIN), UserHelper::getUsersCollection()::ROLE_USER);
     }
 }
