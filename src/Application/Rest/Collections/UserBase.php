@@ -199,6 +199,8 @@ class UserBase extends Base
         $di = \Phalcon\DI::getDefault();
         $cryptor = new \Phalcon\Crypt();
         $this->password = $cryptor->encryptBase64($this->password, $di['phalconify-config']->encryption->key);
+        
+        $this->dateCreated = time();
     }
 
     /*
