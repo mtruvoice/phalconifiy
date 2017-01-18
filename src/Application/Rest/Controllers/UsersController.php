@@ -4,19 +4,19 @@ namespace Phalconify\Application\Rest\Controllers;
 
 use Phalconify\Application\Rest\Http\Request as Request;
 use Phalconify\Application\Rest\Http\Response\Json as JsonResponse;
-use Phalconify\Application\Rest\Collections\Users as UsersCollection;
+use Phalconify\Application\Rest\Auth\Helpers\User as UserHelper;
 
 /**
  * Implements a user collection.
  */
-class UsersController extends \Phalconify\Application\Rest\Controllers\CRUD
+class UsersController extends CRUD
 {
     /**
      * {@inheritdoc}
      */
     protected function getCollection()
     {
-        return new UsersCollection();
+        return UserHelper::getUsersCollection();
     }
 
     /**
@@ -26,7 +26,7 @@ class UsersController extends \Phalconify\Application\Rest\Controllers\CRUD
      */
     public function passwordReset($userId)
     {
-        $userDocument = UsersCollection::findById($userId);
+        $userDocument = $this->getCollection()::findById($userId);
         if ($userDocument) {
             $request = $this->getDI()->get('phalconify-request');
             $userDocument->loadFromBody($request);

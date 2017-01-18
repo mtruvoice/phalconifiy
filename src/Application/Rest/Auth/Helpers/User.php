@@ -2,10 +2,22 @@
 
 namespace Phalconify\Application\Rest\Auth\Helpers;
 
-use Phalconify\Application\Rest\Collections\Users as UsersCollection;
+use Phalconify\Application\Rest\Collections\UserBase as UsersCollection;
 
 class User
 {
+    public static function getUsersCollection()
+    {
+        $di = \Phalcon\Di::getDefault();
+        $config = $di->getShared('phalconify-config');
+
+        if (isset($config->overrides) && isset($config->overrides->usersCollection)) {
+            return $config->overrides->usersCollection;
+        }
+
+        return '\Phalconify\Application\Rest\Collections\Users';
+    }
+
     public function hasValidUser(\Phalcon\Di\FactoryDefault $di = null)
     {
         // Ensure $di is not null
