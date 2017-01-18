@@ -13,7 +13,7 @@ class Rest extends ApplicationBase implements ApplicationInterface
         $this->loadServices(__DIR__.'/Rest/Config/services.json');
 
         // Load endpoints from config
-        $this->loadEndpoints();
+        $customEndpoints = $this->loadEndpoints(CONFIG_DIR.'/endpoints.json');
 
         // If authorisation is enabled load auth services and endpoints
         if ($this->getDI()->getShared('phalconify-config')->application->authorisation) {
@@ -25,18 +25,13 @@ class Rest extends ApplicationBase implements ApplicationInterface
             $authoriser->setControl(new \Phalcon\Config\Adapter\Json(__DIR__.'/Rest/Auth/Config/endpoints.json'));
 
             // Enable authorisation on the custom endpoints
-            $authoriser->setControl($this->di->getShared('phalconify-config')->endpoints);
+            $authoriser->setControl($customEndpoints);
         }
     }
 
     public function loadEndpoints($filePath = null)
     {
-        // If filePath given, load those, else load from config
-        if ($filePath !== null) {
-            $endpoints = new \Phalcon\Config\Adapter\Json($filePath);
-        } else {
-            $endpoints = $this->getDI()->getShared('phalconify-config')->endpoints;
-        }
+        $endpoints = new \Phalcon\Config\Adapter\Json($filePath);
 
         // Load each endpoint collection
         foreach ($endpoints as $endpoint) {
@@ -50,6 +45,8 @@ class Rest extends ApplicationBase implements ApplicationInterface
             }
             $this->mount($createCollection);
         }
+
+        return $endpoints;
     }
 
     public function setNotFoundHandler()
