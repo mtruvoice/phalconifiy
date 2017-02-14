@@ -34,7 +34,7 @@ class UsersController extends CRUD
             // Encrypt password
             $di = \Phalcon\DI::getDefault();
             $cryptor = new \Phalcon\Crypt();
-            $userDocument->password = $cryptor->encryptBase64($userDocument->password, $di['config']->encryption->key);
+            $userDocument->password = $cryptor->encryptBase64($userDocument->password, $di['phalconify-config']->encryption->key);
             $userDocument->save();
 
             return JsonResponse::success([], $userDocument);
