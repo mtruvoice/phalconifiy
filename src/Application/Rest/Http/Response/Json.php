@@ -78,8 +78,21 @@ class Json extends General implements ResponseInterface
     public function appendJsonContent($content)
     {
         $current = $this->getContent();
-        $json = (array) json_decode($current);
+        $json = json_decode($current);
         $json = $json + $content;
+        $this->setJsonContent($json);
+    }
+
+    /**
+     * Appends data to the payload.
+     *
+     * @param array $content
+     */
+    public function appendToPayload(array $content)
+    {
+        $current = $this->getContent();
+        $json = (array) json_decode($current, true);
+        $json['payload'] += (array) $content;
         $this->setJsonContent($json);
     }
 }
