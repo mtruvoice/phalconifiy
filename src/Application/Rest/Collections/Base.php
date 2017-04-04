@@ -14,7 +14,7 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
     public $dateUpdated;
 
     public $dateCreated;
-    
+
     /**
      * {@inheritdoc}
      */
@@ -93,7 +93,7 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
             return $message->getMessage();
         }, $this->getMessages());
     }
-    
+
     public function getDateUpdated()
     {
         return $this->dateUpdated();
@@ -116,7 +116,7 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
         $this->dateUpdated = $time;
 
         return $this;
-    }    
+    }
 
     /**
      * Model Hook: After validation on create.

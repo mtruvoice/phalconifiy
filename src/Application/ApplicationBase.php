@@ -83,11 +83,16 @@ abstract class ApplicationBase extends \Phalcon\Mvc\Micro
 
     public function loadServices($filePath = null)
     {
+        // Initialise services
+        $services = [];
+
         // If filePath given, load those, else load from config
         if ($filePath !== null) {
             $services = new \Phalcon\Config\Adapter\Json($filePath);
         } else {
-            $services = $this->getDI()->getShared('phalconify-config')->services;
+            if (isset($this->getDI()->getShared('phalconify-config')->services)) {
+                $services = $this->getDI()->getShared('phalconify-config')->services;
+            }
         }
 
         // Loop through services and inject them inside the container
