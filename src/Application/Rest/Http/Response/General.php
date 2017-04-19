@@ -41,25 +41,33 @@ abstract class General extends \Phalcon\Http\Response
     public function initialise()
     {
         $config = $this->getDI()->getShared('phalconify-config');
+        $openCors = true;
         if (isset($config->environment)) {
             if (isset($config->environment->cors)) {
                 if (isset($config->environment->cors->allowOrigin)) {
-                    if (is_object($config->environment->cors->allowOrigin) || is_array($config->environment->cors->allowOrigin)) {
-                        foreach ($config->environment->cors->allowOrigin as $origin) {
+                    $openCors = false;
+                    if (is_array($config->environment->cors->allowOrigin) || is_object($config->environment->cors->allowOrigin)) {
+
+                        $allowedOrigins = json_decode(json_encode($config->environment->cors->allowOrigin), true);
+                        $origin = $_SERVER['HTTP_ORIGIN'];
+
+                        if (in_array($origin, $allowedOrigins)) {
                             $this->setHeader('Access-Control-Allow-Origin', $origin);
+                        } else {
+                            $this->setHeader('Access-Control-Allow-Origin', $allowedOrigins[0]);
                         }
+
                     } else {
                         $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');
                     }
-                } else {
-                    $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');
                 }
-            } else {
-                $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');
             }
-        } else {
+        }
+
+        if ($openCors) {
             $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');
         }
+
         $this->setHeader('Access-Control-Request-Method', $config->environment->cors->requestMethods ?? 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         $this->setHeader('Access-Control-Allow-Methods', $config->environment->cors->allowMethods ?? 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         $this->setHeader('Access-Control-Allow-Headers', $config->environment->cors->allowHeaders ?? 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
