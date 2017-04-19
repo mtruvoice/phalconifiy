@@ -51,9 +51,15 @@ abstract class General extends \Phalcon\Http\Response
                     } else {
                         $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');  
                     }
-                }
-            }
-        }
+                } else {
+                        $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');  
+                    }
+            } else {
+                        $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');  
+                    }
+        } else {
+                        $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');  
+                    }
         $this->setHeader('Access-Control-Request-Method', $config->environment->cors->requestMethods ?? 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         $this->setHeader('Access-Control-Allow-Methods', $config->environment->cors->allowMethods ?? 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         $this->setHeader('Access-Control-Allow-Headers', $config->environment->cors->allowHeaders ?? 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
