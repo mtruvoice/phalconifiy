@@ -41,7 +41,19 @@ abstract class General extends \Phalcon\Http\Response
     public function initialise()
     {
         $config = $this->getDI()->getShared('phalconify-config');
-        $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');
+        if(isset($config->environment)){
+            if(isset($config->environment->cors)){
+                if(isset($config->environment->cors->allowOrigin)){
+                    if(is_array($config->environment->cors->allowOrigin)){
+                        foreach($config->environment->cors->allowOrigin as $origin){
+                            $this->setHeader('Access-Control-Allow-Origin', $origin);     
+                        }
+                    } else {
+                        $this->setHeader('Access-Control-Allow-Origin', $config->environment->cors->allowOrigin ?? '*');  
+                    }
+                }
+            }
+        }
         $this->setHeader('Access-Control-Request-Method', $config->environment->cors->requestMethods ?? 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         $this->setHeader('Access-Control-Allow-Methods', $config->environment->cors->allowMethods ?? 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
         $this->setHeader('Access-Control-Allow-Headers', $config->environment->cors->allowHeaders ?? 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
