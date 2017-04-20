@@ -49,7 +49,7 @@ abstract class General extends \Phalcon\Http\Response
                     if (is_array($config->environment->cors->allowOrigin) || is_object($config->environment->cors->allowOrigin)) {
 
                         $allowedOrigins = json_decode(json_encode($config->environment->cors->allowOrigin), true);
-                        $origin = $_SERVER['HTTP_ORIGIN'];
+                        $origin = $_SERVER['HTTP_ORIGIN'] ?? '*';
 
                         if (in_array($origin, $allowedOrigins)) {
                             $this->setHeader('Access-Control-Allow-Origin', $origin);
