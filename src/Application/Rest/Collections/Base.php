@@ -113,7 +113,7 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
 
     public function setDateCreated($time)
     {
-        $this->dateUpdated = $time;
+        $this->dateCreated = $time;
 
         return $this;
     }
