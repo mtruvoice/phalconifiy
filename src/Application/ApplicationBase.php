@@ -69,7 +69,7 @@ abstract class ApplicationBase extends \Phalcon\Mvc\Micro
             // Get config from di
             $config = $this->getDI()->getShared('phalconify-config');
 
-            if (is_array($config->database) && count($config->database) > 1) {
+            if (count($config->database) > 1) {
                 foreach ($config->database as $connection) {
                     // Get the correct adapter
                     $adapter = $this->_getDatabaseAdapter($connection->adapter);
