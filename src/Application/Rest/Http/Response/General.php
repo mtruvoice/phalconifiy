@@ -18,6 +18,7 @@ abstract class General extends \Phalcon\Http\Response
     const ERROR_NOT_CREATED = 'The record was not created. The following errors occured: ';
     const ERROR_NO_RESULTS = 'No results found.';
     const ERROR_RECORD_NOT_FOUND = 'Record not found.';
+    const ERROR_DATA_MISSING = 'There was missing data in the request.';
 
     /**
      * Status of the response.
