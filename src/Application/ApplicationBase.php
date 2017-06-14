@@ -69,8 +69,21 @@ abstract class ApplicationBase extends \Phalcon\Mvc\Micro
             // Get config from di
             $config = $this->getDI()->getShared('phalconify-config');
 
-            if (is_array($config->database) && count($config->database) > 1) {
-                foreach ($config->database as $connection) {
+            $databaseConfig = (array)$config->database;
+            $singleConnection = false;
+            if (isset($databaseConfig['adapter'])) {
+                $singleConnection = true;
+            }
+
+            if ($singleConnection) {
+                // Get the correct adapter
+                $adapter = $this->_getDatabaseAdapter($config->database->adapter);
+
+                // Set credentials
+                $adapter->setCredentials($config->database)
+                    ->setDI($this->getDI());
+            } else {
+                foreach ($databaseConfig as $connection) {
                     // Get the correct adapter
                     $adapter = $this->_getDatabaseAdapter($connection->adapter);
 
@@ -78,13 +91,6 @@ abstract class ApplicationBase extends \Phalcon\Mvc\Micro
                     $adapter->setCredentials($connection)
                         ->setDI($this->getDI());
                 }
-            } else {
-                // Get the correct adapter
-                $adapter = $this->_getDatabaseAdapter($config->database->adapter);
-
-                // Set credentials
-                $adapter->setCredentials($config->database)
-                    ->setDI($this->getDI());
             }
         } catch (\Exception $e) {
             echo $e->getMessage();
