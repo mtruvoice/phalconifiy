@@ -20,7 +20,7 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
      */
     public function jsonSerialize()
     {
-        $this->_id = (string) $this->_id;
+        $this->_id = (string)$this->_id;
 
         return $this->getData();
     }
