@@ -33,10 +33,22 @@ class Rest extends ApplicationBase implements ApplicationInterface
     {
         $endpoints = new \Phalcon\Config\Adapter\Json($filePath);
 
+        // Initialise handlers
+        $handlers = [];
+
         // Load each endpoint collection
         foreach ($endpoints as $endpoint) {
+            // Get a handler
+            if (array_key_exists($endpoint->resource, $handlers)) {
+                $handler = $handlers[$endpoint->resource];
+            } else {
+                $handler = new $endpoint->controller();
+                $handlers[$endpoint->resource] = $handler;
+            }
+
             $createCollection = new \Phalcon\Mvc\Micro\Collection();
-            $createCollection->setHandler(new $endpoint->controller());
+            $createCollection->setHandler($handler);
+
             $createCollection->setPrefix($endpoint->prefix);
             foreach ($endpoint->methods as $method => $params) {
                 if ($params) {

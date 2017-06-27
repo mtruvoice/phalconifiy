@@ -5,7 +5,7 @@ namespace Phalconify\Utils;
 /**
  * Description of Crypt.
  */
-class Crypt extends \Phalcon\Di\Injectable
+class Cryptor extends \Phalcon\Di\Injectable
 {
     /**
      * Gets the cryptor to use.
