@@ -33,7 +33,7 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
      *
      * @return array
      */
-    protected static function getConditions($query = [])
+    public static function getConditions($query = [])
     {
         $properties = self::getProperties();
 
