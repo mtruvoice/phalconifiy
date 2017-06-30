@@ -14,12 +14,14 @@ class Json extends General implements ResponseInterface
      *                        Messages to show to the user
      * @param mixed $payload
      *                        Additional payload to return, such objects, etc
+     * @param int $code
+     *                       Status Code to return
      *
      * @return ResponseInterface
      */
-    public static function error(array $messages, $payload = null)
+    public static function error(array $messages, $payload = null, int $code = 400)
     {
-        $response = new static();
+        $response = new static(null, $code);
         $response->setStatus(self::ERROR);
 
         return $response->setJsonContent([
