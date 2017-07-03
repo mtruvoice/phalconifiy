@@ -11,6 +11,16 @@ abstract class General extends \Phalcon\Http\Response
     const SUCCESS = 'success';
 
     /**
+     * Default response codes
+     */
+    const CODE_OK = 200;
+    const CODE_NOT_FOUND = 404;
+    const CODE_DENIED = 403;
+    const CODE_UNAUTHORIZED = 401;
+    const CODE_BAD_REQUEST = 400;
+    const CODE_SERVER_ERROR = 500;
+
+    /**
      * Default error messages.
      */
     const ERROR_INIT = 'There was an error initialising.';
@@ -19,6 +29,8 @@ abstract class General extends \Phalcon\Http\Response
     const ERROR_NO_RESULTS = 'No results found.';
     const ERROR_RECORD_NOT_FOUND = 'Record not found.';
     const ERROR_DATA_MISSING = 'There was missing data in the request.';
+    const ERROR_PERMISSION_DENIED = 'Permission denied.';
+    const ERROR_UNAUTHORIZED = 'Authorization required';
 
     /**
      * Status of the response.
