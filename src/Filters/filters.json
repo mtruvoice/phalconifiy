@@ -4,6 +4,14 @@
     "definition": "\\Phalconify\\Filters\\NL2P"
   },
   {
+    "name": "removeEmptyP",
+    "definition": "\\Phalconify\\Filters\\RemoveEmptyP"
+  },
+  {
+    "name": "removeInlineStyles",
+    "definition": "\\Phalconify\\Filters\\RemoveInlineStyles"
+  },
+  {
     "name": "utf8",
     "definition": "\\Phalconify\\Filters\\UTF8"
   }
