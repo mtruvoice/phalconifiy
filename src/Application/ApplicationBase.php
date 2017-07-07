@@ -23,6 +23,9 @@ abstract class ApplicationBase extends \Phalcon\Mvc\Micro
         // Load services
         $this->loadServices();
 
+        // Load filters
+        $this->loadFilters();
+
         // Set not found handler
         $this->setNotFoundHandler();
     }
@@ -115,6 +118,14 @@ abstract class ApplicationBase extends \Phalcon\Mvc\Micro
         // Loop through services and inject them inside the container
         foreach ($services as $service) {
             $this->getDI()->set($service->name, $service->definition, $service->shared);
+        }
+    }
+
+    public function loadFilters()
+    {
+        $filters = new \Phalcon\Config\Adapter\Json(__DIR__ . '/../Filters/filters.json');
+        foreach ($filters as $filter) {
+            $this->filter->add($filter->name, new $filter->definition());
         }
     }
 }

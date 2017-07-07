@@ -1,0 +1,10 @@
+[
+  {
+    "name": "nl2p",
+    "definition": "\\Phalconify\\Filters\\NL2P"
+  },
+  {
+    "name": "utf8",
+    "definition": "\\Phalconify\\Filters\\UTF8"
+  }
+]
