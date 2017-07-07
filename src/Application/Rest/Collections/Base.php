@@ -136,8 +136,8 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
         $time = time();
         $this->setDateUpdated($time);
     }
-	
-	/**
+
+    /**
      * Extend a parent \Phalcon\Mvc\Collection::aggregate() method.
      * Added possible to generate $limit and $skip params based on GET request or default values.
      *
@@ -148,30 +148,30 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
      */
     public static function aggregate(array $params = null)
     {
-		$request = new \Phalconify\Application\Rest\Http\Request;
-		$page = $request->get('page', null, 1);
-		$limit = $request->get('limit', null, self::getDefaultLimit());
-		$skip = 0;
-		
-		foreach ($params as $k => $item){
-			if (key($item) == '$limit' || key($item) == '$skip'){
-				if (key($item) == '$limit'){
-					$limit = $item['$limit'];
-				}
-				elseif (key($item) == '$skip'){
-					$skip = $item['$skip'];
-				}
-				
-				unset($params[$k]);
-			}
-		}
-		
-		if ($skip !== 0 || $page > 1){
-			$skip = ($skip !== 0) ? $skip : ($page-1)*$limit;
-		}
-		
-		$params[] = ['$limit' => $skip+$limit];
-		$params[] = ['$skip' => $skip];
+        $request = new \Phalconify\Application\Rest\Http\Request;
+        $page = $request->get('page', null, 1);
+        $limit = $request->get('limit', null, self::getDefaultLimit());
+        $skip = 0;
+
+        foreach ($params as $k => $item){
+            if (key($item) == '$limit' || key($item) == '$skip'){
+                if (key($item) == '$limit'){
+                    $limit = $item['$limit'];
+                }
+                elseif (key($item) == '$skip'){
+                    $skip = $item['$skip'];
+                }
+
+                unset($params[$k]);
+            }
+        }
+
+        if ($skip !== 0 || $page > 1){
+            $skip = ($skip !== 0) ? $skip : ($page-1)*$limit;
+        }
+
+        $params[] = ['$limit' => $skip+$limit];
+        $params[] = ['$skip' => $skip];
 
         return parent::aggregate($params);
     }
