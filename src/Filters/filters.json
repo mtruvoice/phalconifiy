@@ -1,7 +1,15 @@
 [
   {
+    "name": "addNewLinesAfterHeadingsAndP",
+    "definition": "\\Phalconify\\Filters\\AddNewLinesAfterHeadingsAndP"
+  },
+  {
     "name": "nl2p",
     "definition": "\\Phalconify\\Filters\\NL2P"
+  },
+  {
+    "name": "removeCSSClasses",
+    "definition": "\\Phalconify\\Filters\\RemoveCSSClasses"
   },
   {
     "name": "removeEmptyP",
@@ -10,6 +18,10 @@
   {
     "name": "removeInlineStyles",
     "definition": "\\Phalconify\\Filters\\RemoveInlineStyles"
+  },
+  {
+    "name": "removeNewLines",
+    "definition": "\\Phalconify\\Filters\\RemoveNewLines"
   },
   {
     "name": "utf8",
