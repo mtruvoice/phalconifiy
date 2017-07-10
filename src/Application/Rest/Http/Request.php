@@ -62,9 +62,12 @@ class Request extends \Phalcon\Http\Request
         if (isset($headers['Authorization'])) {
             $bearer = $headers['Authorization'];
 
-            return trim(str_replace('Bearer', '', $bearer));
+            $token = trim(str_replace('Bearer', '', $bearer));
+        } else {
+            // Is token present as get request param
+            $token = $_GET['auth_token'] ?? false;
         }
 
-        return '';
+        return $token;
     }
 }
