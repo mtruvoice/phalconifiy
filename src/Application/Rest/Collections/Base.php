@@ -2,6 +2,8 @@
 
 namespace Phalconify\Application\Rest\Collections;
 
+use Phalcon\Db\Adapter\MongoDB\Model\BSONDocument;
+
 /**
  * Implements an abstraction for collections.
  */
@@ -141,38 +143,66 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
      * Extend a parent \Phalcon\Mvc\Collection::aggregate() method.
      * Added possible to generate $limit and $skip params based on GET request or default values.
      *
-     * @param array $params
-     *                     Query parameters
+     * @param array $params Query parameters
+     * @param bool $pagination Pagination logic required for request.
      *
-     * @return array
+     * @return bool|BSONDocument|array false if failed / array if results with pagination. BSONDocument if no pagination.
+     *
      */
-    public static function aggregate(array $params = null)
+    public static function aggregate(array $params = null, bool $pagination = false)
     {
+        if ($pagination) {
+            return self::glueAggregatePagination($params);
+
+        } else {
+            return parent::aggregate($params);
+        }
+    }
+
+    /**
+     * Adds pagination logic to aggregate pipeline
+     * @param array $params array of aggregate pipeline
+     *
+     * @return bool|BSONDocument
+     */
+    protected static function glueAggregatePagination($params)
+    {
+        // sort out default get parameters
         $request = new \Phalconify\Application\Rest\Http\Request;
         $page = $request->get('page', null, 1);
         $limit = $request->get('limit', null, self::getDefaultLimit());
         $skip = 0;
-
-        foreach ($params as $k => $item){
-            if (key($item) == '$limit' || key($item) == '$skip'){
-                if (key($item) == '$limit'){
-                    $limit = $item['$limit'];
-                }
-                elseif (key($item) == '$skip'){
-                    $skip = $item['$skip'];
-                }
-
-                unset($params[$k]);
-            }
+        if ($skip !== 0 || $page > 1) {
+            $skip = ($skip !== 0) ? $skip : ($page - 1) * $limit;
         }
 
-        if ($skip !== 0 || $page > 1){
-            $skip = ($skip !== 0) ? $skip : ($page-1)*$limit;
+        // add pagination logic to pipeline
+        $params[] = [
+            '$group' =>
+                [
+                    '_id' => 'null',
+                    'many' => ['$sum' => 1],
+                    'all' => ['$push' => '$$ROOT']
+                ]];
+        $params[] = [
+            '$project' =>
+                [
+                    '_id' => 0,
+                    'totalRecords' => '$many',
+                    'records' => ['$slice' => ['$all', (int)$skip, (int)$limit]],
+                ]
+        ];
+
+        // make request and save as array
+        $result = parent::aggregate($params)->toArray();
+
+        // add pageLimit to document
+        if (true or isset($result[0]) && isset($result[0]['records']) && count($result[0]['records']) > 0) {
+            $result[0]['pageLimit'] = $limit;
+
+            return $result[0];
+        } else { // return false if nothing found
+            return false;
         }
-
-        $params[] = ['$limit' => $skip+$limit];
-        $params[] = ['$skip' => $skip];
-
-        return parent::aggregate($params);
     }
 }
