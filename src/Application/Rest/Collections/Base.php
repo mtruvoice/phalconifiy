@@ -162,10 +162,11 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
     /**
      * Adds pagination logic to aggregate pipeline
      * @param array $params array of aggregate pipeline
+     * @param bool $execute execute code or return pipeline array
      *
-     * @return bool|BSONDocument
+     * @return bool|BSONDocument|array
      */
-    protected static function glueAggregatePagination($params)
+    public static function glueAggregatePagination($params, $execute = true)
     {
         // sort out default get parameters
         $request = new \Phalconify\Application\Rest\Http\Request;
@@ -192,7 +193,9 @@ abstract class Base extends \Phalcon\Mvc\MongoCollection implements \JsonSeriali
                     'records' => ['$slice' => ['$all', (int)$skip, (int)$limit]],
                 ]
         ];
-
+        if (!$execute) {
+            return $params;
+        }
         // make request and save as array
         $result = parent::aggregate($params)->toArray();
 
