@@ -72,8 +72,11 @@ class Authorise extends Injectable
         $role = ($user !== false ? $user->getRole() : UserHelper::getUsersCollection()::ROLE_GUEST);
         $app->before(function () use ($app, $authAdapter, $role) {
             $middleware = $this->getDI()->get('phalconify-auth-middleware');
-
-            return $middleware->isAllowed($app, $authAdapter->getAdapter(), $role);
+            if(!$middleware->isAllowed($app, $authAdapter->getAdapter(), $role)){
+                $app->stop();
+                return false;
+            }
+            return true;
         });
     }
 
