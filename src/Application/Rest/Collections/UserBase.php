@@ -2,8 +2,9 @@
 
 namespace Phalconify\Application\Rest\Collections;
 
-use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
-use Phalcon\Mvc\Model\Validator\PresenceOf as PresenceValidator;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Validation\Validator\PresenceOf as PresenceValidator;
 use Phalconify\Database\Mongo;
 use Phalconify\Utils\Strings as StringUtils;
 use Phalconify\Application\Rest\Http\Request as Request;
@@ -218,22 +219,20 @@ class UserBase extends Base
     */
     public function validation()
     {
+        $validator = new Validation();
+
         // Ensure email is present
-        $this->validate(
+        $validator->add('email',
             new PresenceValidator([
-                    'field' => 'email',
-                    'message' => 'Email address is required.',
-                ]
-            )
+                'message' => 'Email address is required.'
+            ])
         );
 
         // Ensure email is valid
-        $this->validate(
+        $validator->add('email',
             new EmailValidator([
-                    'field' => 'email',
-                    'message' => 'Email address is not valid.',
-                ]
-            )
+                'message' => 'Email address is not valid.'
+            ])
         );
 
         // Ensure email does not already exists
@@ -263,24 +262,20 @@ class UserBase extends Base
         }
 
         // Ensure role is present
-        $this->validate(
+        $validator->add('role',
             new PresenceValidator([
-                    'field' => 'role',
-                    'message' => 'Role is required.',
-                ]
-            )
+                'message' => 'Status is required.'
+            ])
         );
 
         // Ensure status is present
-        $this->validate(
+        $validator->add('status',
             new PresenceValidator([
-                    'field' => 'status',
-                    'message' => 'Status is required.',
-                ]
-            )
+                'message' => 'Status is required.'
+            ])
         );
 
-        return $this->validationHasFailed() != true;
+        return $this->validate($validator);
     }
 
     public function getEmail()
