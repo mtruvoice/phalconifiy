@@ -275,6 +275,9 @@ class UserBase extends Base
             ])
         );
 
+        return $validator->validate($validator->getValidators());
+
+        // This throws an error now???
         return $this->validate($validator);
     }
 

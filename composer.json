@@ -1,19 +1,19 @@
 {
-    "name": "armonb/phalconify",
-    "description": "A PhalconPHP library to speed build projects.",
-    "authors": [
-        {
-            "name": "Armon Bigham",
-            "email": "me@armonbigham.com"
-        }
-    ],
-    "require": {
-        "armonb/phalconify-database": "^1.0.2",
-        "phalcon/incubator": "3.0.3"
-    },
-    "autoload": {
-        "psr-4" : {
-            "Phalconify\\" : "src/"
-        }
+  "name": "armonb/phalconify",
+  "description": "A PhalconPHP library to speed build projects.",
+  "authors": [
+    {
+      "name": "Armon Bigham",
+      "email": "me@armonbigham.com"
     }
+  ],
+  "require": {
+    "armonb/phalconify-database": "^1.0.2",
+    "phalcon/incubator": "3.0.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Phalconify\\": "src/"
+    }
+  }
 }
