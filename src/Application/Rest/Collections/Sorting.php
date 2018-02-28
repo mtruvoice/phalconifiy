@@ -71,7 +71,7 @@ trait Sorting
     protected static function getSortingFilter(&$query)
     {
         $filter = [
-            'sort' => [static::getSortBy($query) => static::getSortOrder($query)],
+            'sort' => [static::getSortBy($query) => (int)static::getSortOrder($query)],
         ];
         unset($query['sortBy'], $query['sortOrder']);
 
