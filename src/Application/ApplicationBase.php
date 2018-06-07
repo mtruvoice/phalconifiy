@@ -82,6 +82,9 @@ abstract class ApplicationBase extends \Phalcon\Mvc\Micro
             }, true);
 
             if (!empty($config->mongoAtlas->uri)) {
+                $mongoDb = new \Phalconify\Database\Mongo();
+                $mongoDb->setDI($this->getDI(), $config->mongoAtlas->uri);
+
                 $this->getDI()->setShared('mongo', function () use ($config) {
                     $mongo = new \Phalcon\Db\Adapter\MongoDB\Client($config->mongoAtlas->uri);
                     return $mongo->selectDatabase($config->mongoAtlas->database);
