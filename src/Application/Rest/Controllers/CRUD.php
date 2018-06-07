@@ -31,7 +31,6 @@ abstract class CRUD extends Base
      */
     public function getAll()
     {
-        echo 'getll'; die;
         $collection = $this->getCollection();
         $records = $collection::fetch($this->query);
         $totalRecords = $collection::total($this->query);
