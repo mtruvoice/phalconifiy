@@ -72,33 +72,29 @@ abstract class ApplicationBase extends \Phalcon\Mvc\Micro
             // Get config from di
             $config = $this->getDI()->getShared('phalconify-config');
 
-            $databaseConfig = (array)$config->database;
-            $singleConnection = false;
-            if (isset($databaseConfig['adapter'])) {
-                $singleConnection = true;
+            $this->getDI()->set(
+                'collectionManager', function () {
+
+                    // Setting a default CollectionManager
+                    $modelsManager = new \Phalcon\Mvc\Collection\Manager();
+
+                    return $modelsManager;
+            }, true);
+
+            if (!empty($config->mongoAtlas->uri)) {
+                $this->getDI()->setShared('mongo', function () use ($config) {
+                    $mongo = new \Phalcon\Db\Adapter\MongoDB\Client($config->mongoAtlas->uri);
+                    return $mongo->selectDatabase($config->mongoAtlas->database);
+                });
+                $this->getDI()->setShared('mongoAtlasDb', function () use ($config) {
+                    $mongo = new \Phalcon\Db\Adapter\MongoDB\Client($config->mongoAtlas->uri);
+                    return $mongo->selectDatabase($config->mongoAtlas->database);
+                });
             }
-
-            if ($singleConnection) {
-                // Get the correct adapter
-                $adapter = $this->_getDatabaseAdapter($config->database->adapter);
-
-                // Set credentials
-                $adapter->setCredentials($config->database)
-                    ->setDI($this->getDI());
-            } else {
-                foreach ($databaseConfig as $connection) {
-                    // Get the correct adapter
-                    $adapter = $this->_getDatabaseAdapter($connection->adapter);
-
-                    // Set credentials
-                    $adapter->setCredentials($connection)
-                        ->setDI($this->getDI());
-                }
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+                exit;
             }
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-            exit;
-        }
     }
 
     public function loadServices($filePath = null)
